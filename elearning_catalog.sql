@@ -9,7 +9,7 @@ CREATE TABLE Course(
 	Title NVARCHAR(500) NOT NULL,
 	CourseDescription NVARCHAR(1000) NOT NULL,
 	PublicationDate DATETIME NOT NULL,
-	CoverPhoto VARBINARY(MAX) NOT NULL
+	CoverPhoto VARBINARY(MAX)
 );
 
 CREATE TABLE Price(
