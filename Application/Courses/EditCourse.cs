@@ -1,7 +1,10 @@
 using System;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using Application.ErrorHandler;
 using DataAccess;
+using FluentValidation;
 using MediatR;
 
 namespace Application.Courses
@@ -14,6 +17,16 @@ namespace Application.Courses
             public string Title { get; set; } 
             public string CourseDescription { get; set; }
             public DateTime? PublicationDate { get; set; }
+        }
+
+        public class ExecuteValidation : AbstractValidator<Execute>
+        {
+            public ExecuteValidation()
+            {
+                RuleFor( x => x.Title ).NotEmpty();
+                RuleFor( x => x.CourseDescription ).NotEmpty();
+                RuleFor( x => x.PublicationDate ).NotEmpty(); 
+            }
         }
 
         public class Handler : IRequestHandler<Execute>
@@ -30,7 +43,7 @@ namespace Application.Courses
 
                 if (course == null)
                 {
-                    throw new Exception("Error: Course not found");
+                    throw new ExceptionHandler(HttpStatusCode.NotFound, new {Code = HttpStatusCode.NotFound, CourseError = "Course not found"});
                 }
 
                 course.Title = request.Title ?? course.Title;

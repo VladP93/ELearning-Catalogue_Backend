@@ -1,6 +1,8 @@
 using System;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using Application.ErrorHandler;
 using DataAccess;
 using MediatR;
 
@@ -25,7 +27,8 @@ namespace Application.Courses
                 var course = await _context.Course.FindAsync(request.Id);
 
                 if(course==null){
-                    throw new Exception("Error: Course not found");
+                    // throw new Exception("Error: Course not found");
+                    throw new ExceptionHandler(HttpStatusCode.NotFound, new {Code = HttpStatusCode.NotFound, CourseError = "Course not found"});
                 }
 
                 _context.Remove(course);

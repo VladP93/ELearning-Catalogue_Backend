@@ -8,7 +8,7 @@ namespace Business
         public int CourseId { get; set; }
         public string Title { get; set; } 
         public string CourseDescription { get; set; }
-        public DateTime PublicationDate { get; set; }
+        public DateTime? PublicationDate { get; set; }
         public byte[] CoverPhoto { get; set; }
         public Price Price { get; set; }
         public ICollection<Commentary> Commentaries { get; set; }

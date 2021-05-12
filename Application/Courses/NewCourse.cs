@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Business;
 using DataAccess;
+using FluentValidation;
 using MediatR;
 
 namespace Application.Courses
@@ -13,7 +14,17 @@ namespace Application.Courses
         {
             public string Title { get; set; } 
             public string CourseDescription { get; set; }
-            public DateTime PublicationDate { get; set; }
+            public DateTime? PublicationDate { get; set; }
+        }
+
+        public class ExecuteValidation : AbstractValidator<Execute>
+        {
+            public ExecuteValidation()
+            {
+                RuleFor( x => x.Title ).NotEmpty();
+                RuleFor( x => x.CourseDescription ).NotEmpty();
+                RuleFor( x => x.PublicationDate ).NotEmpty(); 
+            }
         }
 
         public class Handler : IRequestHandler<Execute>
