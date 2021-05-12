@@ -1,9 +1,10 @@
-using Microsoft.EntityFrameworkCore;
 using Business;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess
 {
-    public class ElearningCatalogContext : DbContext
+    public class ElearningCatalogContext : IdentityDbContext<User>
     {
         public DbSet<Commentary> Commentary { get; set; }
         public DbSet<Course> Course { get; set; }
@@ -18,6 +19,7 @@ namespace DataAccess
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<CourseInstructor>().HasKey(ci => new {ci.CourseId, ci.InstructorId});
         }
     }
