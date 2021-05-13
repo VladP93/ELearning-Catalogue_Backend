@@ -1,6 +1,7 @@
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using Application.Contracts;
 using Application.ErrorHandler;
 using Business;
 using FluentValidation;
@@ -30,12 +31,15 @@ namespace Application.Security
         {
             private readonly UserManager<User> _userManager;
             private readonly SignInManager<User> _signInManager;
+            private readonly IJwtGenerator _jwtGenerator;
 
-            public Handler(UserManager<User> userManager, SignInManager<User> signInManager)
+            public Handler(UserManager<User> userManager, SignInManager<User> signInManager, IJwtGenerator jwtGenerator)
             {
                 _userManager = userManager;
                 _signInManager = signInManager;
+                _jwtGenerator = jwtGenerator;
             }
+
             public async Task<UserData> Handle(Execute request, CancellationToken cancellationToken)
             {
                 var user = await _userManager.FindByEmailAsync(request.Email);
@@ -51,10 +55,10 @@ namespace Application.Security
                     return new UserData
                     {
                         FullName = user.FullName,
-                        Token = "holis soy el token",
+                        Token = _jwtGenerator.CreateToken(user),
                         Username = user.UserName,
                         Email = user.Email,
-                        Imagen = null
+                        Image = null
                     };
                 }
                 
