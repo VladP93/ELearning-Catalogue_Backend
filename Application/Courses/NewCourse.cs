@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Business;
@@ -15,6 +16,9 @@ namespace Application.Courses
             public string Title { get; set; } 
             public string CourseDescription { get; set; }
             public DateTime? PublicationDate { get; set; }
+            public List<Guid> Instructors {get;set;}
+            public decimal Price { get; set; }
+            public decimal PromotionPrice { get; set; }
         }
 
         public class ExecuteValidation : AbstractValidator<Execute>
@@ -38,14 +42,41 @@ namespace Application.Courses
 
             public async Task<Unit> Handle(Execute request, CancellationToken cancellationToken)
             {
+                Guid _courseId = Guid.NewGuid();
+
                 var course = new Course
                 {
+                    CourseId = _courseId,
                     Title = request.Title,
                     CourseDescription = request.CourseDescription,
                     PublicationDate = request.PublicationDate
                 };
 
                 _context.Course.Add(course);
+
+                if(request.Instructors!=null)
+                {
+                    foreach (var id in request.Instructors)
+                    {
+                        var courseInstructor = new CourseInstructor
+                        {
+                            CourseId = _courseId,
+                            InstructorId = id
+                        };
+                        _context.CourseInstructor.Add(courseInstructor);
+                    }
+                }
+
+                var priceEntity = new Price
+                {
+                    CourseId = _courseId,
+                    ActualPrice = request.Price,
+                    PromotionPrice = request.PromotionPrice,
+                    PriceId = Guid.NewGuid()
+                };
+
+                _context.Price.Add(priceEntity);
+
                 var response = await _context.SaveChangesAsync();
 
                 if (response <= 0)

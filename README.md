@@ -7,4 +7,5 @@ A simple catalogue builded on NetCore (Multitier architecture), Entity Framework
 - DataAccess: Persistence layer
 - Business: Business logic
 - Application: Services
+- Security: Access Control (JWT)
 - WebAPI: Controllers - Endpoints

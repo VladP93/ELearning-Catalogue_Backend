@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,7 +13,7 @@ namespace Application.Courses
     {
         public class Execute : IRequest 
         {
-            public int Id { get; set; }
+            public Guid Id { get; set; }
         }
 
         public class Handler : IRequestHandler<Execute>
@@ -24,7 +25,26 @@ namespace Application.Courses
             }
             public async Task<Unit> Handle(Execute request, CancellationToken cancellationToken)
             {
+
                 var course = await _context.Course.FindAsync(request.Id);
+                var storedInstructors = _context.CourseInstructor.Where(ci => ci.CourseId == request.Id).ToList();
+                var storedCommentaries = _context.Commentary.Where( c => c.CourseId == request.Id);
+                var storedPrice = _context.Price.Where( c => c.CourseId == request.Id).FirstOrDefault();
+
+                foreach(var instructor in storedInstructors)
+                {
+                    _context.CourseInstructor.Remove(instructor);
+                }
+
+                foreach(var commetary in storedCommentaries)
+                {
+                    _context.Commentary.Remove(commetary);
+                }
+
+                if(storedPrice !=null)
+                {
+                    _context.Price.Remove(storedPrice);
+                }
 
                 if(course==null){
                     // throw new Exception("Error: Course not found");

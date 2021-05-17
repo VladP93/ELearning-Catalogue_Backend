@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using Business;
 using MediatR;
 using Application.Courses;
+using Application.DTO;
+using System;
 
 namespace WebAPI.Controllers
 {
@@ -11,13 +13,13 @@ namespace WebAPI.Controllers
     public class CoursesController : MyBaseController
     {
         [HttpGet]
-        public async Task<ActionResult<List<Course>>> Get()
+        public async Task<ActionResult<List<CourseDTO>>> Get()
         {
             return await Mediator.Send(new CoursesQuery.CoursesList());
         }
 
         [HttpGet ("{id}")]
-        public async Task<ActionResult<Course>> Detail(int id)
+        public async Task<ActionResult<CourseDTO>> Detail(Guid id)
         {
             return await Mediator.Send(new CourseById.GetCourse{Id = id});
         }
@@ -29,14 +31,14 @@ namespace WebAPI.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<Unit>> Update(int id, EditCourse.Execute data)
+        public async Task<ActionResult<Unit>> Update(Guid id, EditCourse.Execute data)
         {
             data.CourseId = id;
             return await Mediator.Send(data);
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Unit>> Delete(int id)
+        public async Task<ActionResult<Unit>> Delete(Guid id)
         {
             return await Mediator.Send(new DeleteCourse.Execute{Id = id});
         }

@@ -79,6 +79,8 @@ namespace WebAPI
 
             services.AddScoped<IUserSession, UserSession>();
 
+            services.AddAutoMapper(typeof(CoursesQuery.Handler));
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebAPI", Version = "v1" });
