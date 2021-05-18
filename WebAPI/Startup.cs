@@ -7,6 +7,8 @@ using Application.Contracts;
 using Application.Courses;
 using Business;
 using DataAccess;
+using DataAccess.DapperConnection;
+using DataAccess.DapperConnection.Instructor;
 using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.AspNetCore.Authentication;
@@ -43,26 +45,28 @@ namespace WebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            // DB Section
             services.AddDbContext<ElearningCatalogContext>(opt =>{
                 opt.UseSqlServer(Configuration.GetConnectionString("Default"));
             });
+            services.AddOptions();
+            services.Configure<ConnectionConfig>(Configuration.GetSection("ConnectionStrings"));
 
+            // Business logic 
             services.AddMediatR(typeof(CoursesQuery.Handler).Assembly);
 
+            // Security
             services.AddControllers(opt =>
             {
                 var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
                 opt.Filters.Add(new AuthorizeFilter(policy));
             })
             .AddFluentValidation(cfg => cfg.RegisterValidatorsFromAssemblyContaining<NewCourse>() );
-
             var builder = services.AddIdentityCore<User>();
             var identityBuilder = new IdentityBuilder(builder.UserType, builder.Services);
             identityBuilder.AddEntityFrameworkStores<ElearningCatalogContext>();
             identityBuilder.AddSignInManager<SignInManager<User>>();
             services.TryAddSingleton<ISystemClock, SystemClock>();
-
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("This is a key for encryption"));
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opt => 
             {
@@ -74,12 +78,15 @@ namespace WebAPI
                     ValidateIssuer = false
                 };
             });
-
             services.AddScoped<IJwtGenerator, JwtGenerator>();
-
             services.AddScoped<IUserSession, UserSession>();
 
+            // Data Transfer Objects
             services.AddAutoMapper(typeof(CoursesQuery.Handler));
+
+            // User Stored Procedures 
+            services.AddTransient<IFactoryConnection, FactoryConnection>();
+            services.AddScoped<IInstructor, InstructorRepository>();
 
             services.AddSwaggerGen(c =>
             {

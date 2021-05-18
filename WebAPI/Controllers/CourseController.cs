@@ -10,7 +10,7 @@ using System;
 namespace WebAPI.Controllers
 {
     [ApiController]
-    public class CoursesController : MyBaseController
+    public class CourseController : MyBaseController
     {
         [HttpGet]
         public async Task<ActionResult<List<CourseDTO>>> Get()
