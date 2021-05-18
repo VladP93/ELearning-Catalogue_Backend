@@ -9,6 +9,7 @@ namespace Business
         public int Score { get; set; }
         public string CommentaryText { get; set; }
         public Guid CourseId { get; set; }
+        public DateTime? CreatedAt { get; set; }
         public Course Course { get; set; }
     }
 }

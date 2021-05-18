@@ -55,6 +55,7 @@ namespace Application.Course
                 course.Title = request.Title ?? course.Title;
                 course.CourseDescription = request.CourseDescription ?? course.CourseDescription;
                 course.PublicationDate = request.PublicationDate ?? course.PublicationDate;
+                course.CreatedAt = DateTime.UtcNow;
 
                 var priceEntity = _context.Price.Where(c => c.CourseId == course.CourseId).FirstOrDefault();
                 if(priceEntity!=null)

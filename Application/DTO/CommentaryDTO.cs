@@ -9,5 +9,6 @@ namespace Application.DTO
         public int Score { get; set; }
         public string CommentaryText { get; set; }
         public Guid CourseId { get; set; }
+        public DateTime? CreatedAt { get; set; }
     }
 }

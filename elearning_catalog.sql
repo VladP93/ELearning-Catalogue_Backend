@@ -55,7 +55,8 @@ AS
 			i.InstructorId,
 			i.FirstName,
 			i.LastName,
-			i.Degree
+			i.Degree,
+			i.CreatedAt
 		FROM Instructor i
 
 	END
@@ -70,8 +71,8 @@ CREATE PROCEDURE usp_create_instructor(
 AS 
 	BEGIN
 
-		INSERT INTO Instructor(InstructorId, FirstName, LastName, Degree)
-		VALUES(@InstructorId, @FirstName, @LastName, @Degree)
+		INSERT INTO Instructor(InstructorId, FirstName, LastName, Degree, CreatedAt)
+		VALUES(@InstructorId, @FirstName, @LastName, @Degree, GETUTCDATE())
 
 	END
 ;
@@ -87,7 +88,8 @@ AS
 		UPDATE Instructor SET
 			FirstName = @FirstName,
 			LastName = @LastName,
-			Degree = @Degree
+			Degree = @Degree,
+			CreatedAt = GETUTCDATE()
 		WHERE
 			InstructorId = @InstructorId
 
@@ -117,7 +119,8 @@ AS
 		InstructorId,
 		FirstName,
 		LastName,
-		Degree
+		Degree,
+		CreatedAt
 	FROM Instructor WHERE
 		InstructorId = @InstructorId
 

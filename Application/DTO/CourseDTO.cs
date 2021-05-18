@@ -12,6 +12,7 @@ namespace Application.DTO
         public byte[] CoverPhoto { get; set; }
         public ICollection<InstructorDTO> Instructors { get; set; }
         public PriceDTO Price { get; set; }
+        public DateTime? CreatedAt { get; set; }
         public ICollection<CommentaryDTO> Commentaries { get; set; }
     }
 }

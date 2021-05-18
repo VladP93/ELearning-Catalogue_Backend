@@ -10,6 +10,7 @@ namespace Business
         public string LastName { get; set; }
         public string Degree { get; set; }
         public byte[] ProfilePhoto { get; set; }
+        public DateTime? CreatedAt { get; set; }
         public ICollection<CourseInstructor> CourseInstructors { get; set; }
     }
 }

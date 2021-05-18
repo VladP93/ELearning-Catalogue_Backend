@@ -45,7 +45,8 @@ namespace Application.Commentary
                     Student = request.Student,
                     Score = request.Score,
                     CommentaryText = request.CommentaryText,
-                    CourseId = request.CourseId
+                    CourseId = request.CourseId,
+                    CreatedAt = DateTime.UtcNow
                 };
 
                 _context.Commentary.Add(commentary);

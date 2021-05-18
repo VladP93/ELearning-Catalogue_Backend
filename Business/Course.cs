@@ -10,6 +10,7 @@ namespace Business
         public string CourseDescription { get; set; }
         public DateTime? PublicationDate { get; set; }
         public byte[] CoverPhoto { get; set; }
+        public DateTime? CreatedAt { get; set; }
         public Price Price { get; set; }
         public ICollection<Commentary> Commentaries { get; set; }
         public ICollection<CourseInstructor> CourseInstructors { get; set; }
