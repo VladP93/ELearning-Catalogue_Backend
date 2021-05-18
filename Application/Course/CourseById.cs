@@ -10,7 +10,7 @@ using DataAccess;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Application.Courses
+namespace Application.Course
 {
     public class CourseById
     {
@@ -45,7 +45,7 @@ namespace Application.Courses
                     throw new ExceptionHandler(HttpStatusCode.NotFound, new {Code = HttpStatusCode.NotFound, CourseError = "Course not found"});
                 }
 
-                var courseDTO = _mapper.Map<Course, CourseDTO>(course);
+                var courseDTO = _mapper.Map<Business.Course, CourseDTO>(course);
 
                 return courseDTO;
             }

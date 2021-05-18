@@ -7,7 +7,7 @@ using Application.ErrorHandler;
 using DataAccess;
 using MediatR;
 
-namespace Application.Courses
+namespace Application.Course
 {
     public class DeleteCourse
     {

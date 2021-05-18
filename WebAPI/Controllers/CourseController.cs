@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Business;
 using MediatR;
-using Application.Courses;
+using Application.Course;
 using Application.DTO;
 using System;
 

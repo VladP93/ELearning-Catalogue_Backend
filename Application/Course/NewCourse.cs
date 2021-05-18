@@ -7,7 +7,7 @@ using DataAccess;
 using FluentValidation;
 using MediatR;
 
-namespace Application.Courses
+namespace Application.Course
 {
     public class NewCourse
     {
@@ -44,7 +44,7 @@ namespace Application.Courses
             {
                 Guid _courseId = Guid.NewGuid();
 
-                var course = new Course
+                var course = new Business.Course
                 {
                     CourseId = _courseId,
                     Title = request.Title,

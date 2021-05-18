@@ -8,7 +8,7 @@ using DataAccess;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Application.Courses
+namespace Application.Course
 {
     public class CoursesQuery
     {
@@ -33,7 +33,7 @@ namespace Application.Courses
                 .Include(p => p.Price )
                 .ToListAsync();
 
-                var coursesDTO = _mapper.Map<List<Course>, List<CourseDTO>>(courses);
+                var coursesDTO = _mapper.Map<List<Business.Course>, List<CourseDTO>>(courses);
 
                 return coursesDTO;
             }

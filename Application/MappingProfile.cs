@@ -9,7 +9,7 @@ namespace Application
     {
         public MappingProfile()
         {
-            CreateMap<Course, CourseDTO>()
+            CreateMap<Business.Course, CourseDTO>()
             .ForMember(c => c.Instructors, mp => mp.MapFrom(ci => ci.CourseInstructors.Select(i => i.Instructor).ToList()))
             .ForMember(c => c.Commentaries, com => com.MapFrom(cl => cl.Commentaries))
             .ForMember(c => c.Price, p => p.MapFrom(pr => pr.Price));

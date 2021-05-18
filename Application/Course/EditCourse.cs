@@ -10,7 +10,7 @@ using DataAccess;
 using FluentValidation;
 using MediatR;
 
-namespace Application.Courses
+namespace Application.Course
 {
     public class EditCourse
     {

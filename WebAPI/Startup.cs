@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Application.Contracts;
-using Application.Courses;
+using Application.Course;
 using Business;
 using DataAccess;
 using DataAccess.DapperConnection;
