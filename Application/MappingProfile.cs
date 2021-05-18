@@ -15,7 +15,7 @@ namespace Application
             .ForMember(c => c.Price, p => p.MapFrom(pr => pr.Price));
             CreateMap<CourseInstructor, CourseInstructorDTO>();
             CreateMap<Business.Instructor, InstructorDTO>();
-            CreateMap<Commentary, CommentaryDTO>();
+            CreateMap<Business.Commentary, CommentaryDTO>();
             CreateMap<Price, PriceDTO>();
         }
     }
