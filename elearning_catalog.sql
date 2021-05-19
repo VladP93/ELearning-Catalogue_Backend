@@ -126,3 +126,85 @@ AS
 
 	END
 ;
+
+CREATE PROCEDURE usp_get_course_pagination(
+	@courseTitle nvarchar(500),
+	@pageNumber int,
+	@quantity int,
+	@columnSort nvarchar(500),
+	@totalRecords int OUTPUT,
+	@totalPages int OUTPUT
+)
+AS
+	BEGIN
+
+		SET NOCOUNT ON
+		SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
+
+		DECLARE @start int
+		DECLARE @end int
+
+		SET @end = @pageNumber * @quantity
+
+		IF @pageNumber = 1
+			BEGIN
+				SET @start = (@pageNumber * @quantity) -@quantity
+			END
+		ELSE
+			BEGIN
+				SET @start = ( (@pageNumber * @quantity) - @quantity) + 1
+			END
+
+		CREATE TABLE #TMP(
+			rowNumber INT IDENTITY(1,1),
+			Id UNIQUEIDENTIFIER
+		)
+
+		DECLARE @SQL nvarchar(max)
+		SET @SQL = 'SELECT CourseId FROM Course'
+		
+		IF @courseTitle IS NOT NULL
+			BEGIN 
+				SET @SQL = @SQL + ' WHERE Title LIKE ''%' + @courseTitle + '%'' '
+			END
+
+		IF @columnSort IS NOT NULL
+			BEGIN
+				SET @SQL = @SQL + ' ORDER BY ' + @columnSort
+			END
+
+		INSERT INTO #TMP(Id)
+		EXEC sp_executesql @SQL
+
+		SELECT @totalRecords = COUNT(*) FROM #TMP
+
+		IF @totalRecords > @quantity
+			BEGIN
+				SET @totalPages = @totalRecords / @quantity
+				IF (@totalRecords % @quantity) > 0
+					BEGIN
+						SET @totalPages = @totalPages + 1
+					END
+			END
+		ELSE
+			BEGIN
+				SET @totalPages = 1
+			END
+
+		SELECT 
+			c.CourseId,
+			c.Title,
+			c.CourseDescription,
+			c.PublicationDate,
+			c.CoverPhoto,
+			c.CreatedAt,
+			p.ActualPrice,
+			p.PromotionPrice
+		FROM #TMP t INNER JOIN Course c
+			ON t.Id = c.CourseId
+		LEFT JOIN Price p
+			ON p.CourseId = c.CourseId
+		WHERE t.rowNumber >= @start AND t.rowNumber <= @end
+
+	END
+	;

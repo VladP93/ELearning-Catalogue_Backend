@@ -9,6 +9,7 @@ using Business;
 using DataAccess;
 using DataAccess.DapperConnection;
 using DataAccess.DapperConnection.Instructor;
+using DataAccess.DapperConnection.Pagination;
 using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.AspNetCore.Authentication;
@@ -87,10 +88,12 @@ namespace WebAPI
             // User Stored Procedures 
             services.AddTransient<IFactoryConnection, FactoryConnection>();
             services.AddScoped<IInstructor, InstructorRepository>();
+            services.AddScoped<IPagination, PaginationRepository>();
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebAPI", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "E-learning catalog", Version = "v1" });
+                c.CustomSchemaIds(c=>c.FullName);
             });
         }
 
@@ -104,7 +107,7 @@ namespace WebAPI
                 //app.UseDeveloperExceptionPage();
 
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebAPI v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "API for E-learning catalog v1"));
             }
 
             //app.UseHttpsRedirection();

@@ -6,6 +6,7 @@ using MediatR;
 using Application.Course;
 using Application.DTO;
 using System;
+using DataAccess.DapperConnection.Pagination;
 
 namespace WebAPI.Controllers
 {
@@ -43,5 +44,10 @@ namespace WebAPI.Controllers
             return await Mediator.Send(new DeleteCourse.Execute{Id = id});
         }
 
+        [HttpPost("Report")]
+        public async Task<ActionResult<PaginationModel>> Report(PaginationCourse.Execute data)
+        {
+            return await Mediator.Send(data);
+        }
     }
 }
