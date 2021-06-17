@@ -65,6 +65,10 @@ namespace WebAPI
             .AddFluentValidation(cfg => cfg.RegisterValidatorsFromAssemblyContaining<NewCourse>() );
             var builder = services.AddIdentityCore<User>();
             var identityBuilder = new IdentityBuilder(builder.UserType, builder.Services);
+
+            identityBuilder.AddRoles<IdentityRole>();
+            identityBuilder.AddClaimsPrincipalFactory<UserClaimsPrincipalFactory<User, IdentityRole>>();
+
             identityBuilder.AddEntityFrameworkStores<ElearningCatalogContext>();
             identityBuilder.AddSignInManager<SignInManager<User>>();
             services.TryAddSingleton<ISystemClock, SystemClock>();
