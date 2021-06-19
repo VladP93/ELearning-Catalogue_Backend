@@ -6,12 +6,14 @@ using System.Threading.Tasks;
 using Application.Instructor;
 using DataAccess.DapperConnection.Instructor;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers
 {
     public class InstructorController : MyBaseController
     {
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<ActionResult<List<InstructorModel>>> GetInstructors()
         {

@@ -84,7 +84,7 @@ namespace Application.Security
                 {
                     FullName = user.FullName,
                     Email = user.Email,
-                    Token = _jwtGenerator.CreateToken(user),
+                    Token = _jwtGenerator.CreateToken(user, null),
                     Username = user.UserName
                 };
 
