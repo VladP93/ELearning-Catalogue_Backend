@@ -46,6 +46,10 @@ namespace WebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //CORS
+            services.AddCors(o=>o.AddPolicy("corsApp",builder => {
+                builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+            }));
             // DB Section
             services.AddDbContext<ElearningCatalogContext>(opt =>{
                 opt.UseSqlServer(Configuration.GetConnectionString("Default"));
@@ -104,6 +108,7 @@ namespace WebAPI
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseCors("corsApp");
             app.UseMiddleware<ErrorHandlerMiddleware>();
             
             if (env.IsDevelopment())
