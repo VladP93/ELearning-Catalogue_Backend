@@ -77,7 +77,7 @@ namespace Application.Security
                 {
                     return new UserData
                     {
-                        FullName = userIden.FullName,
+                        Fullname = userIden.FullName,
                         Username = userIden.UserName,
                         Email = userIden.Email,
                         Token = _jwtGenerator.CreateToken(userIden, roles)
